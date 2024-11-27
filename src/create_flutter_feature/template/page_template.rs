@@ -5,7 +5,7 @@ pub fn create_page_template(name: &str, as_router: bool) -> String {
     let name_camel_case = name.to_upper_camel_case();
 
     let router_import = if as_router {
-        "import 'package:auto_route/auto_route.dart';"
+        "import 'package:auto_route/auto_route.dart';\n"
     } else {
         "\n"
     };

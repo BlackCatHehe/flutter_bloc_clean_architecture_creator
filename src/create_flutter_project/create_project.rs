@@ -169,7 +169,7 @@ impl Project {
         let translations_path = &path.join("assets").join("translations");
         std::fs::create_dir_all(translations_path)?;
         std::fs::write(
-            translations_path.join("en.json"),
+            translations_path.join("en-US.json"),
             r#"{
     "example": {
         "hello": "Hello",
@@ -180,7 +180,7 @@ impl Project {
 }"#,
         )?;
         std::fs::write(
-            translations_path.join("zh.json"),
+            translations_path.join("zh-CN.json"),
             r#"{
     "example": {
         "hello": "你好",
