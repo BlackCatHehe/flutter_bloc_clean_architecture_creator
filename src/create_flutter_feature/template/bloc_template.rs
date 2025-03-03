@@ -10,7 +10,7 @@ pub fn get_bloc_template(name: &str, use_injectable: bool) -> String {
     } else {
         ""
     };
-    let injectable_annotation = if use_injectable { "@injectable" } else { "" };
+    let injectable_annotation = if use_injectable { "\n@injectable" } else { "" };
 
     format!(
         r##"import 'package:flutter_bloc/flutter_bloc.dart';

@@ -9,7 +9,7 @@ pub fn create_page_template(name: &str, as_router: bool) -> String {
     } else {
         "\n"
     };
-    let router_annotation = if as_router { "@RoutePage()" } else { "\n" };
+    let router_annotation = if as_router { "\n@RoutePage()" } else { "" };
 
     format!(
         r#"{router_import}import 'package:easy_localization/easy_localization.dart';

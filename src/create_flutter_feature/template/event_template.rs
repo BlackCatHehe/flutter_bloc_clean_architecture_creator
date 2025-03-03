@@ -9,7 +9,7 @@ pub fn get_event_template(name: &str) -> String {
 
 @freezed
 class {pascal_name}Event with _${pascal_name}Event {{
-    const factory {pascal_name}Event() = _{pascal_name}Event;
+  const factory {pascal_name}Event() = _{pascal_name}Event;
 }}
 "##,
     )

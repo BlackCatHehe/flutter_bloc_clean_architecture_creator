@@ -3,7 +3,6 @@ use anyhow::Result;
 use heck::ToSnakeCase;
 use regex::Regex;
 use std::{
-    collections::HashMap,
     fs::{self, canonicalize},
     path::{Path, PathBuf},
 };
@@ -80,18 +79,11 @@ impl Feature {
             "============= create feature:{} folders =============",
             self.name
         );
-        let folders = HashMap::from([
-            ("data", vec!["repository", "model", "datasource"]),
-            ("domain", vec!["entity", "repository", "usecase"]),
-            ("presentation", vec!["bloc", "pages", "widgets"]),
-        ]);
-        for (folder, sub_folders) in folders {
+        let folders = vec!["bloc", "pages", "widgets"];
+
+        for folder in folders {
             let folder_path = &path.join(folder);
             std::fs::create_dir_all(folder_path)?;
-            for sub_folder in sub_folders {
-                let sub_folder_path = folder_path.join(sub_folder);
-                std::fs::create_dir_all(sub_folder_path)?;
-            }
         }
         Ok(())
     }
@@ -101,7 +93,7 @@ impl Feature {
             "============= create feature:{} bloc =============",
             self.name
         );
-        let bloc_path = &path.join("presentation").join("bloc");
+        let bloc_path = &path.join("bloc");
         std::fs::create_dir_all(bloc_path)?;
 
         let snake_case_bloc_name = (&self.name).to_snake_case();
@@ -128,7 +120,7 @@ impl Feature {
             template::get_state_template(self.name.as_str()),
         )?;
 
-        let page_folder_path = &path.join("presentation").join("pages");
+        let page_folder_path = &path.join("pages");
         let page_path = page_folder_path.join(format!("{}_page.dart", snake_case_bloc_name));
         std::fs::write(
             page_path,

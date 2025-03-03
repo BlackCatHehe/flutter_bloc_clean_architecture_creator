@@ -9,7 +9,7 @@ pub fn get_state_template(name: &str) -> String {
 
 @freezed
 class {pascal_name}State with _${pascal_name}State {{
-    const factory {pascal_name}State() = _{pascal_name}State;
+  const factory {pascal_name}State() = _{pascal_name}State;
 }}
 "##,
     )

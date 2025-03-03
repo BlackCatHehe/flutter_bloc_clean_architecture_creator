@@ -61,8 +61,8 @@ impl Project {
         self.add_dependencies().expect("add dependencies error");
         self.create_clean_folders(&path)
             .expect("create clean folders error");
-        self.config_core_template(&path)
-            .expect("config core template error");
+        self.config_config_template(&path)
+            .expect("config config template error");
         self.config_main_template(&path)
             .expect("config main template error");
         self.config_easy_localization(&path)
@@ -108,21 +108,11 @@ impl Project {
     fn create_clean_folders(&self, path: &Path) -> Result<()> {
         println!("============= create clean folders =============");
         let folders = HashMap::from([
-            (
-                "core",
-                vec![
-                    "router",
-                    "injection",
-                    "constants",
-                    "error",
-                    "network",
-                    "secrets",
-                    "theme",
-                    "usecase",
-                    "utils",
-                ],
-            ),
-            ("features", vec![]),
+            ("core", vec!["network", "errors", "utils"]), // 核心基础设施层
+            ("data", vec!["models", "repositories", "datasources"]), // 数据层
+            ("presentation", vec!["bloc", "widgets", "screens"]), // UI层
+            ("config", vec!["constants", "routes", "themes", "injection"]), // 全局配置
+            ("features", vec![]),                         // 按功能模块划分（可选）
         ]);
         for (folder, sub_folders) in folders {
             let folder_path = &path.join("lib").join(folder);
@@ -135,19 +125,19 @@ impl Project {
         Ok(())
     }
 
-    fn config_core_template(&self, path: &Path) -> Result<()> {
+    fn config_config_template(&self, path: &Path) -> Result<()> {
         println!("============= config core template =============");
-        let core_path = &path.join("lib").join("core");
+        let config_path = &path.join("lib").join("config");
         std::fs::write(
-            core_path.join("theme").join("app_theme.dart"),
+            config_path.join("themes").join("app_theme.dart"),
             template::create_app_theme_file(),
         )?;
         std::fs::write(
-            core_path.join("injection").join("injector.dart"),
+            config_path.join("injection").join("injector.dart"),
             template::create_injector_file(),
         )?;
         std::fs::write(
-            core_path.join("router").join("app_router.dart"),
+            config_path.join("routes").join("app_router.dart"),
             template::create_router_file(),
         )?;
         Ok(())
@@ -229,6 +219,6 @@ fn test_config_easy_localizationte() {
     let project_path = &env::current_dir().unwrap().join("fucker");
     println!("project_path: {}", project_path.display());
     Project::new("", "fucker", "fucker")
-        .config_core_template(project_path)
+        .config_config_template(project_path)
         .unwrap();
 }
